@@ -12,10 +12,17 @@ import {
 } from 'recharts';
 
 const socket = io('http://localhost:3000', {
-    transports: ['websocet', 'polling']
+    transports: ['websocket', 'polling']
 });
 
 const App = ({}) => {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        socket.on('cpu', (cpuPercent) => {
+            setData((currentData => [...currentData, cpuPercent]))
+        });
+    }, [])
 
     return (
         <div>
